@@ -196,6 +196,16 @@ class Encoder {
     }
     return output;
   }
+
+  codeBin(data, tags) {
+    // Replace the last bytes of data with the tag.
+    data = this.pad(data, this.format.pageSize);
+    for (let i = 0; i < tags.length; i++) {
+      data[data.length - tags.length + i] = tags[i];
+    }
+
+    return data;
+  }
   
   toWAV(audioSamples) {
     let buffer = new ArrayBuffer(44 + audioSamples.length * 2);

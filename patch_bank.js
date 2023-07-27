@@ -371,6 +371,18 @@ PatchBankApp.download = function(syx) {
   document.body.removeChild(a);
 }
 
+PatchBankApp.downloadBin = function() {
+  this.makeBank();
+  let buffer = this.encoder.codeBin(this.bank.data, [2, 4]);
+  let blob = new Blob([buffer], {type: 'application/octet-stream'});
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = this.bank.name + '.bin';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 PatchBankApp.makeAudioSamples = function() {
   if (this.audioSamples) {
     return;

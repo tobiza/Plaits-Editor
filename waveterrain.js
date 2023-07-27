@@ -364,6 +364,27 @@ WaveTerrainApp.download = function() {
   document.body.removeChild(a);
 }
 
+WaveTerrainApp.downloadBin = function() {
+  if (!this.terrain) {
+    return;
+  }
+
+  data = new Uint8Array(4096);
+  const z = this.terrain;
+  for (let i = 0; i < 4096; i++) {
+    data[i] = z[i] < 0 ? 255 + z[i] : z[i];
+  }
+  let buffer = this.encoder.codeBin(data, [5, 5]);
+
+  let blob = new Blob([buffer], {type: 'application/octet-stream'});
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'terrain.bin';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 WaveTerrainApp.displayProgress = function() {
   let transferSource = WaveTerrainApp.transferSource;
   let progressBar = document.getElementById('progressBar');
