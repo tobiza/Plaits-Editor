@@ -665,7 +665,20 @@ WavetableApp.download = function(raw) {
       {type: raw ? 'application/octet-stream' : 'audio/wav'});
   let a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'wavetable' + (raw ? '.bin' : '.wav');
+  a.download = 'wavetable.bin';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+WavetableApp.downloadBin = function() {
+  this.makeWavetableData();
+
+  let buffer = this.encoder.codeBin(this.wavetableData, [13, 13]);
+  let blob = new Blob([buffer], {type: 'application/octet-stream'});
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'wavetable.bin';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
